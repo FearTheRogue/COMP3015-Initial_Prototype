@@ -17,7 +17,13 @@ private:
     float angle;
 
     Plane plane;
-    std::unique_ptr<ObjMesh> streetlight;
+    std::unique_ptr<ObjMesh> parkLight;
+    std::unique_ptr<ObjMesh> parkPlane;
+    std::unique_ptr<ObjMesh> parkBench;
+
+    GLuint tex1;
+    GLuint tex2;
+    GLuint tex3;
 
     void setMatrices();
     void compile();
