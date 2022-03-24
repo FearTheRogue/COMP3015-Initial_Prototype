@@ -15,15 +15,18 @@ class Scene_InitialPrototype : public Scene
 private:
     GLSLProgram prog;
     float angle;
+    float tPrev;
 
     Plane plane;
     std::unique_ptr<ObjMesh> parkLight;
     std::unique_ptr<ObjMesh> parkPlane;
     std::unique_ptr<ObjMesh> parkBench;
 
-    GLuint tex1;
-    GLuint tex2;
-    GLuint tex3;
+    GLuint parkLightTex;
+    GLuint parkPlaneTex;
+    GLuint parkBenchTex;
+
+    bool isFoggy;
 
     void setMatrices();
     void compile();

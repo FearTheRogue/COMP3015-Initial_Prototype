@@ -1,0 +1,13 @@
+﻿  scene_initial_prototype.cpp
+C:\Users\James\Documents\GitHub\COMP3015-Initial_Prototype\scene_initial_prototype.cpp(44,44): warning C4305: 'argument': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+  Generating code
+  4 of 1339 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    9 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  Project_Template.vcxproj -> C:\Users\James\Documents\GitHub\COMP3015-Initial_Prototype\x64\Release\Project_Template.exe

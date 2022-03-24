@@ -12,6 +12,5 @@ int main(int argc, char* argv[])
 
 	scene = std::unique_ptr<Scene>(new Scene_InitialPrototype());
 
-
 	return runner.run(*scene);
 }
