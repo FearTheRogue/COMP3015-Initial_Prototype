@@ -21,10 +21,12 @@ private:
     std::unique_ptr<ObjMesh> parkLight;
     std::unique_ptr<ObjMesh> parkPlane;
     std::unique_ptr<ObjMesh> parkBench;
+    std::unique_ptr<ObjMesh> parkTree;
 
     GLuint parkLightTex;
     GLuint parkPlaneTex;
     GLuint parkBenchTex;
+    GLuint parkTreeTex;
 
     bool isFoggy;
 

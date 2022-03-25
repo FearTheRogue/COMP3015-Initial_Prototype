@@ -1,7 +1,2 @@
 ﻿  scene_initial_prototype.cpp
-C:\Users\James\Documents\GitHub\COMP3015-Initial_Prototype\scene_initial_prototype.cpp(40,44): warning C4305: 'argument': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-  Project_Template.vcxproj -> C:\Users\James\Documents\GitHub\COMP3015-Initial_Prototype\x64\Debug\Project_Template.exe
+  Project_Template.vcxproj -> C:\Users\James Bridgman\Documents\GitHub\COMP3015-Initial_Prototype\x64\Debug\Project_Template.exe
