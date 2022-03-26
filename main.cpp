@@ -7,11 +7,11 @@
 
 int main(int argc, char* argv[])
 {
-	SceneRunner runner("Shader_Basics");
+	SceneRunner runner("Foggy Park");
 
 	std::unique_ptr<Scene> scene;
 
-	scene = std::unique_ptr<Scene>(new Scene_InitialPrototype());
+	scene = std::unique_ptr<Scene>(new Scene_Initial_Prototype_HDR());
 
 	return runner.run(*scene);
 }
