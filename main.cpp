@@ -2,6 +2,7 @@
 #include "helper/scenerunner.h"
 #include "scenebasic_uniform.h"
 #include "scene_initial_prototype.h"
+#include "scene_initial_prototype_hdr.h";
 
 
 int main(int argc, char* argv[])

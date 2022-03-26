@@ -33,21 +33,19 @@ void Scene_InitialPrototype::initScene()
     
     glEnable(GL_DEPTH_TEST);
     
-    isFoggy = true;
+    glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
     view = glm::lookAt(vec3(5.0f, 5.0f, 7.5f), vec3(0.0f, 0.75f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
     projection = mat4(1.0);
 
-    angle = glm::radians(45.0f);
-
     prog.setUniform("Fog.MaxDist", 30.0f); // 30
-    prog.setUniform("Fog.MinDist", 0.1f); // 1
-    prog.setUniform("Fog.Colour", vec3(0.5)); // 0.5
+    prog.setUniform("Fog.MinDist", 0.01f); // 1
+    prog.setUniform("Fog.Colour", vec3(0.4)); // 0.5
 
-    prog.setUniform("Spot.L", vec3(0.7f)); // 0.9
-    prog.setUniform("Spot.La", vec3(0.35f)); // 0.5
+    prog.setUniform("Spot.L", vec3(1.0f)); // 0.9
+    prog.setUniform("Spot.La", vec3(0.1f)); // 0.5
     prog.setUniform("Spot.Exponent", 15.0f); // 200
-    prog.setUniform("Spot.Cutoff", glm::radians(30.0f)); //10
+    prog.setUniform("Spot.Cutoff", glm::radians(35.0f)); //10
 
     parkLightTex = Texture::loadTexture("media/Texture/park_light-texture.jpg");
     parkPlaneTex = Texture::loadTexture("media/Texture/park-texture.jpg");
@@ -81,33 +79,25 @@ void Scene_InitialPrototype::compile()
 void Scene_InitialPrototype::update(float t)
 {
     //update your angle here
-
-    float deltaT = t - tPrev;
-
-    if (tPrev == 0.0f)
-        deltaT = 0.0f;
-
-    tPrev = t;
-
-    angle += 0.25f * deltaT;
-
-    if (angle > glm::two_pi<float>())
-        angle -= glm::two_pi<float>();
 }
 
 void Scene_InitialPrototype::render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    //vec3 cameraPos = vec3(5.0f * cos(angle), 5.0f, 7.5f * sin(angle));
-    //view = glm::lookAt(cameraPos, vec3(0.0f, 0.75f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
-
+    // setting the spotlight position
     vec4 lightPos = vec4(4.0f, 7.0f, 2.0f, 1.0f);
     prog.setUniform("Spot.Position", vec3(view * lightPos));
+
+    // setting the spotlight direction
     mat3 normalMatrix = mat3(vec3(view[0]), vec3(view[1]), vec3(view[2]));
     prog.setUniform("Spot.Direction", normalMatrix * vec3(-lightPos));
 
-    // PARK LIGHT
+    /// <summary>
+    /// 
+    /// PARK LIGHT MODEL
+    /// 
+    /// </summary>
 
     prog.setUniform("Material.Kd", 0.4f, 0.4f, 0.4f);
     prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
@@ -127,7 +117,11 @@ void Scene_InitialPrototype::render()
     setMatrices();
     parkLight->render();
 
-    // PARK PLANE
+    /// <summary>
+    /// 
+    /// PARK PLANE MODEL
+    /// 
+    /// </summary>//
 
     prog.setUniform("Material.Kd", 0.7f, 0.7f, 0.7f);
     prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
@@ -147,7 +141,11 @@ void Scene_InitialPrototype::render()
     setMatrices();
     parkPlane->render();
 
-    // PARK BENCH
+    /// <summary>
+    /// 
+    /// PARK BENCH MODEL
+    /// 
+    /// </summary>
 
     prog.setUniform("Material.Kd", 0.3f, 0.1f, 0.2f);
     prog.setUniform("Material.Ks", 0.3f, 0.1f, 0.3f);
@@ -166,7 +164,11 @@ void Scene_InitialPrototype::render()
     setMatrices();
     parkBench->render();
 
-    // PARK TREE 1
+    /// <summary>
+    /// 
+    /// PARK TREE 1 MODEL
+    /// 
+    /// </summary>
 
     prog.setUniform("Material.Kd", 0.4f, 0.4f, 0.4f);
     prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
@@ -186,62 +188,44 @@ void Scene_InitialPrototype::render()
     setMatrices();
     parkTree->render();
 
-    // PARK TREE 2
-
-    prog.setUniform("Material.Kd", 0.4f, 0.4f, 0.4f);
-    prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
-    prog.setUniform("Material.Ka", 0.5f, 0.5f, 0.5f);
-    prog.setUniform("Material.Shininess", 200.0f);
+    /// <summary>
+    /// 
+    /// PARK TREE 2 MODEL
+    /// 
+    /// </summary>
 
     model = mat4(1.0f);
     model = glm::scale(model, vec3(1.2f));
     model = glm::rotate(model, glm::radians(140.0f), vec3(0.0f, 1.0f, 0.0f));
     model = glm::translate(model, vec3(17.0f, 0.7f, -6.5f));
 
-    // BIND PARK TREE TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
-
     setMatrices();
     parkTree->render();
 
-    // PARK TREE 3
-
-    prog.setUniform("Material.Kd", 0.4f, 0.4f, 0.4f);
-    prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
-    prog.setUniform("Material.Ka", 0.5f, 0.5f, 0.5f);
-    prog.setUniform("Material.Shininess", 200.0f);
+    /// <summary>
+    /// 
+    /// PARK TREE 3 MODEL
+    /// 
+    /// </summary>
 
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(85.0f), vec3(0.0f, 1.0f, 0.0f));
     model = glm::translate(model, vec3(8.7f, 0.7f, -4.0f));
 
-    // BIND PARK TREE TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
-
     setMatrices();
     parkTree->render();
 
-    // PARK TREE 4
-
-    prog.setUniform("Material.Kd", 0.4f, 0.4f, 0.4f);
-    prog.setUniform("Material.Ks", 0.9f, 0.9f, 0.9f);
-    prog.setUniform("Material.Ka", 0.5f, 0.5f, 0.5f);
-    prog.setUniform("Material.Shininess", 200.0f);
+    /// <summary>
+    /// 
+    /// PARK TREE 4 MODEL
+    /// 
+    /// </summary>
 
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(-90.0f), vec3(0.0f, 1.0f, 0.0f));
     model = glm::translate(model, vec3(-3.7f, 0.7f, 6.0f));
-
-    // BIND PARK TREE TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
 
     setMatrices();
     parkTree->render();

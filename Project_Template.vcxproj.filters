@@ -63,6 +63,9 @@
     <ClCompile Include="helper\stb\stb_image.cpp">
       <Filter>helper\stb</Filter>
     </ClCompile>
+    <ClCompile Include="scene_initial_prototype_hdr.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader\basic_uniform.frag">
@@ -75,6 +78,12 @@
       <Filter>shaders</Filter>
     </None>
     <None Include="shader\sceneShader.vert">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\testingHDR.frag">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="shader\testingHDR.vert">
       <Filter>shaders</Filter>
     </None>
   </ItemGroup>
@@ -123,6 +132,9 @@
     </ClInclude>
     <ClInclude Include="helper\texture.h">
       <Filter>helper</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_initial_prototype_hdr.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
