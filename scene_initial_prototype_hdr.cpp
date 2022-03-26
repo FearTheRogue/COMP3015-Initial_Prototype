@@ -21,10 +21,10 @@ using glm::mat4;
 
 Scene_Initial_Prototype_HDR::Scene_Initial_Prototype_HDR() : angle(0.0f)
 {
-    parkLight = ObjMesh::load("media/park-light.obj", true);
-    parkPlane = ObjMesh::load("media/park-plane.obj", true);
-    parkBench = ObjMesh::load("media/park-bench.obj", true);
-    parkTree = ObjMesh::load("media/park-tree.obj", true);
+    parkLight = ObjMesh::load("media/park-light.obj", false, true);
+    parkPlane = ObjMesh::load("media/park-plane.obj", false, true);
+    parkBench = ObjMesh::load("media/park-bench.obj", false, true);
+    parkTree = ObjMesh::load("media/park-tree.obj", false, true);
 }
 
 void Scene_Initial_Prototype_HDR::initScene()
@@ -86,6 +86,18 @@ void Scene_Initial_Prototype_HDR::initScene()
     parkPlaneTex = Texture::loadTexture("media/Texture/park-texture.jpg");
     parkBenchTex = Texture::loadTexture("media/Texture/park_bench-texture.jpg");
     parkTreeTex = Texture::loadTexture("media/Texture/park_tree-texture.jpg");
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, parkLightTex);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, parkPlaneTex);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, parkBenchTex);
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
 }
 
 void Scene_Initial_Prototype_HDR::setMatrices()
@@ -231,8 +243,8 @@ void Scene_Initial_Prototype_HDR::drawScene()
     model = glm::translate(model, vec3(-0.7f, 0.7f, -1.0f));
 
     // BIND PARK LIGHT TEXTURE
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkLightTex);
+    prog.setUniform("Tex1", 0);
+
 
     setMatrices();
     parkLight->render();
@@ -249,8 +261,7 @@ void Scene_Initial_Prototype_HDR::drawScene()
     model = glm::translate(model, vec3(-0.7f, -0.5f, -1.0f));
 
     // BIND PARK PLANE TEXTURE
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkPlaneTex);
+    prog.setUniform("Tex1", 1);
 
     setMatrices();
     parkPlane->render();
@@ -267,9 +278,8 @@ void Scene_Initial_Prototype_HDR::drawScene()
     model = glm::translate(model, vec3(2.0f, -0.5f, 0.0f));
 
     // BIND PARK BENCH TEXTURE
+    prog.setUniform("Tex1", 2);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkBenchTex);
 
     setMatrices();
     parkBench->render();
@@ -288,8 +298,7 @@ void Scene_Initial_Prototype_HDR::drawScene()
 
     // BIND PARK TREE TEXTURE
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
+
 
     setMatrices();
     parkTree->render();

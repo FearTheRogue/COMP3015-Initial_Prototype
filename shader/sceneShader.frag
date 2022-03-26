@@ -5,7 +5,7 @@ in vec3 Normal;
 in vec2 TexCoord;
 
 layout (location = 0) out vec4 FragColor;
-layout (binding = 0) uniform sampler2D Tex1;
+layout (binding = 0) uniform sampler2D RenderTex;
 
 uniform struct SpotLightInfo {
     vec3 Position;
@@ -31,7 +31,7 @@ uniform struct FogInfo {
 
 vec3 blinnPhongSpot(vec3 pos, vec3 norm)
 {
-    vec3 texColour = texture(Tex1, TexCoord).rgb;
+    vec3 texColour = texture(RenderTex, TexCoord).rgb;
 
     vec3 ambient = texColour * Spot.La;
 

@@ -19,12 +19,13 @@ using glm::vec4;
 using glm::mat3;
 using glm::mat4;
 
-Scene_InitialPrototype::Scene_InitialPrototype() : angle(0.0f), plane(50.0f, 50.0f, 1, 1)
+Scene_InitialPrototype::Scene_InitialPrototype()
 {
-    parkLight = ObjMesh::load("media/park-light.obj", true);
-    parkPlane = ObjMesh::load("media/park-plane.obj", true);
-    parkBench = ObjMesh::load("media/park-bench.obj", true);
-    parkTree = ObjMesh::load("media/park-tree.obj", true);
+    // loading models
+    parkLight = ObjMesh::load("media/park-light.obj", false, true);
+    parkPlane = ObjMesh::load("media/park-plane.obj", false, true);
+    parkBench = ObjMesh::load("media/park-bench.obj", false, true);
+    parkTree = ObjMesh::load("media/park-tree.obj", false, true);
 }
 
 void Scene_InitialPrototype::initScene()
@@ -33,24 +34,42 @@ void Scene_InitialPrototype::initScene()
     
     glEnable(GL_DEPTH_TEST);
     
+    // setting bg colour of the scene
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
     view = glm::lookAt(vec3(5.0f, 5.0f, 7.5f), vec3(0.0f, 0.75f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
     projection = mat4(1.0);
 
-    prog.setUniform("Fog.MaxDist", 30.0f); // 30
-    prog.setUniform("Fog.MinDist", 0.01f); // 1
-    prog.setUniform("Fog.Colour", vec3(0.4)); // 0.5
+    // fog settings
+    prog.setUniform("Fog.MaxDist", 30.0f);
+    prog.setUniform("Fog.MinDist", 0.1f);
+    prog.setUniform("Fog.Colour", vec3(0.4));
 
-    prog.setUniform("Spot.L", vec3(1.0f)); // 0.9
-    prog.setUniform("Spot.La", vec3(0.1f)); // 0.5
-    prog.setUniform("Spot.Exponent", 15.0f); // 200
-    prog.setUniform("Spot.Cutoff", glm::radians(35.0f)); //10
+    // spotlight settings
+    prog.setUniform("Spot.L", vec3(1.0f));
+    prog.setUniform("Spot.La", vec3(0.1f));
+    prog.setUniform("Spot.Exponent", 15.0f);
+    prog.setUniform("Spot.Cutoff", glm::radians(35.0f));
 
+    // loading textures
     parkLightTex = Texture::loadTexture("media/Texture/park_light-texture.jpg");
     parkPlaneTex = Texture::loadTexture("media/Texture/park-texture.jpg");
     parkBenchTex = Texture::loadTexture("media/Texture/park_bench-texture.jpg");
     parkTreeTex = Texture::loadTexture("media/Texture/park_tree-texture.jpg");
+
+    // binding each texture
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, parkLightTex);
+
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, parkPlaneTex);
+
+    glActiveTexture(GL_TEXTURE2);
+    glBindTexture(GL_TEXTURE_2D, parkBenchTex);
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
 }
 
 void Scene_InitialPrototype::setMatrices()
@@ -107,12 +126,10 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(45.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-0.7f, 0.7f, -1.0f));
+    model = glm::translate(model, vec3(-0.7f, -1.2f, -1.0f));
 
-    // BIND PARK LIGHT TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkLightTex);
+    // SETTING PARK LIGHT TEXTURE
+    prog.setUniform("RenderTex", 0);
 
     setMatrices();
     parkLight->render();
@@ -130,13 +147,10 @@ void Scene_InitialPrototype::render()
 
     model = mat4(1.0f);
     model = glm::scale(model, vec3(5.0f));
-    //model = glm::rotate(model, glm::radians(180.0f), vec3(1.0, 0.0, 0.0));
     model = glm::translate(model, vec3(-0.7f, -0.5f, -1.0f));
 
-    // BIND PARK PLANE TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkPlaneTex);
+    // SETTING PARK PLANE TEXTURE
+    prog.setUniform("RenderTex", 1);
 
     setMatrices();
     parkPlane->render();
@@ -154,12 +168,10 @@ void Scene_InitialPrototype::render()
 
     model = mat4(1.0f);
     model = glm::rotate(model, glm::radians(-15.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(2.0f, -0.5f, 0.0f));
+    model = glm::translate(model, vec3(1.0f, -2.5f, -1.0f));
 
-    // BIND PARK BENCH TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkBenchTex);
+    // SETTING PARK BENCH TEXTURE
+    prog.setUniform("RenderTex", 2);
 
     setMatrices();
     parkBench->render();
@@ -178,12 +190,10 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(12.7f, 0.7f, 0.0f));
+    model = glm::translate(model, vec3(12.7f, -1.2f, 0.0f));
 
-    // BIND PARK TREE TEXTURE
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, parkTreeTex);
+    // SETTING PARK TREE TEXTURE
+    prog.setUniform("RenderTex", 3);
 
     setMatrices();
     parkTree->render();
@@ -197,7 +207,7 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(1.2f));
     model = glm::rotate(model, glm::radians(140.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(17.0f, 0.7f, -6.5f));
+    model = glm::translate(model, vec3(17.0f, -1.2f, -6.5f));
 
     setMatrices();
     parkTree->render();
@@ -211,7 +221,7 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(85.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(8.7f, 0.7f, -4.0f));
+    model = glm::translate(model, vec3(8.7f, -1.2f, -4.0f));
 
     setMatrices();
     parkTree->render();
@@ -225,7 +235,7 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(-90.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-3.7f, 0.7f, 6.0f));
+    model = glm::translate(model, vec3(-3.7f, -1.2f, 6.0f));
 
     setMatrices();
     parkTree->render();

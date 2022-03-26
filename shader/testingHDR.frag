@@ -8,9 +8,6 @@ layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec3 Hdrcolor;
 
 layout (binding = 0) uniform sampler2D Tex1;
-layout (binding = 1) uniform sampler2D Tex2;
-layout (binding = 2) uniform sampler2D Tex3;
-layout (binding = 3) uniform sampler2D Tex4;
 
 uniform struct LightInfo {
     vec4 Position;
@@ -117,9 +114,9 @@ vec3 blinnPhong(vec3 pos, vec3 norm) {
 
 vec3 blinnPhongSpot(vec3 pos, vec3 norm)
 {
-    //vec3 texColour = texture(Tex1, TexCoord).rgb;
+    vec3 texColour = texture(Tex1, TexCoord).rgb;
 
-    vec3 ambient = Material.Ka * Spot.La;
+    vec3 ambient = texColour * Spot.La;
 
     vec3 s = normalize(Spot.Position.xyz - pos); // point light
 
@@ -134,7 +131,7 @@ vec3 blinnPhongSpot(vec3 pos, vec3 norm)
 
         spotScale = pow(cosAng, Spot.Exponent);
         float sDotN =  max(dot(s, norm), 0.0);
-        diffuse = Material.Kd * sDotN;
+        diffuse = texColour * sDotN;
     
         if(sDotN > 0.0) {
             vec3 v = normalize(-pos.xyz);
@@ -172,7 +169,7 @@ void pass1()
 void pass2()
 {
     // Retrieve high-res color from texture
-    vec3 color = texture(Tex1, TexCoord).rgb;
+    vec3 color = Hdrcolor.rgb;
 
     // Convert to XYZ
     vec3 xyzCol = rgb2xyz * vec3(color);
