@@ -68,6 +68,6 @@ sceneShader.frag
 
 <p align = center>
 
-  [<img src= "https://raw.githubusercontent.com/FearTheRogue/COMP3015-Initial_Prototype/main/readme%20images/yt-image.png" width = "500">](https://www.youtube.com/watch?v=iDUuTmnH-0A)
+  [<img src= "https://raw.githubusercontent.com/FearTheRogue/COMP3015-Initial_Prototype/main/readme%20images/yt-image.png" width = "500">](https://youtu.be/f7TIqJrXlVs)
 
 </p>
