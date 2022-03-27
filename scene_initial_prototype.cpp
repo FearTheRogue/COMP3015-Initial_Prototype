@@ -22,18 +22,18 @@ using glm::mat4;
 Scene_InitialPrototype::Scene_InitialPrototype()
 {
     // loading models
-    parkLight = ObjMesh::load("media/park-light.obj", false, true);
+    parkLight = ObjMesh::load("media/park-light.obj", true);
     parkPlane = ObjMesh::load("media/park-plane.obj", false, true);
-    parkBench = ObjMesh::load("media/park-bench.obj", false, true);
+    parkBench = ObjMesh::load("media/park-bench.obj", true);
     parkTree = ObjMesh::load("media/park-tree.obj", false, true);
 }
 
 void Scene_InitialPrototype::initScene()
 {
     compile();
-    
+
     glEnable(GL_DEPTH_TEST);
-    
+
     // setting bg colour of the scene
     glClearColor(0.4f, 0.4f, 0.4f, 1.0f);
 
@@ -77,7 +77,7 @@ void Scene_InitialPrototype::setMatrices()
     mat4 mv = view * model;
 
     prog.setUniform("ModelViewMatrix", mv);
-    prog.setUniform("NormalMatrix", glm::mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+    prog.setUniform("NormalMatrix", mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
     prog.setUniform("MVP", projection * mv);
 }
 
@@ -126,7 +126,7 @@ void Scene_InitialPrototype::render()
     model = mat4(1.0f);
     model = glm::scale(model, vec3(2.0f));
     model = glm::rotate(model, glm::radians(45.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(-0.7f, -1.2f, -1.0f));
+    model = glm::translate(model, vec3(-0.7f, 0.0f, -1.0f));
 
     // SETTING PARK LIGHT TEXTURE
     prog.setUniform("RenderTex", 0);
@@ -167,8 +167,9 @@ void Scene_InitialPrototype::render()
     prog.setUniform("Material.Shininess", 10.0f);
 
     model = mat4(1.0f);
+    model = glm::scale(model, vec3(0.8f));
     model = glm::rotate(model, glm::radians(-15.0f), vec3(0.0f, 1.0f, 0.0f));
-    model = glm::translate(model, vec3(1.0f, -2.5f, -1.0f));
+    model = glm::translate(model, vec3(1.0f, -2.0f, -1.0f));
 
     // SETTING PARK BENCH TEXTURE
     prog.setUniform("RenderTex", 2);

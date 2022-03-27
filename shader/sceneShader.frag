@@ -35,7 +35,7 @@ vec3 blinnPhongSpot(vec3 pos, vec3 norm)
 
     vec3 ambient = texColour * Spot.La;
 
-    vec3 s = normalize(Spot.Position.xyz - pos); // point light
+    vec3 s = normalize(Spot.Position.xyz - pos);
 
     float cosAng = dot(-s, normalize(Spot.Direction)); // cosine of the angle
     float angle = acos(cosAng); // gives you the actual angle
@@ -76,7 +76,7 @@ void main() {
     // clamp values between 0.0 and 1.0
     fogFactor = clamp(fogFactor,0.0,1.0); 
 
-    // colour we recieve from blinnPhong calculation
+    // colour we recieve from blinnPhongSpot calculation
     vec3 shadeColour = blinnPhongSpot(Position, normalize(Normal));
 
     // we assign a colour based on the fogFactor using mix

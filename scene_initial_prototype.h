@@ -6,8 +6,6 @@
 
 #include <glad/glad.h>
 #include "helper/glslprogram.h"
-
-#include "helper/plane.h"
 #include "helper/objmesh.h"
 
 class Scene_InitialPrototype : public Scene
