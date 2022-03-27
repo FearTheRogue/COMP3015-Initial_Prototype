@@ -4,7 +4,7 @@
 
 ---
 <p align = center>
-<img align = "centre" src= "https://github.com/FearTheRogue/COMP3015-Initial_Prototype/blob/main/readme%20images/ip-scene.png" width = "600">
+<img align = "centre" src= "https://raw.githubusercontent.com/FearTheRogue/COMP3015-Initial_Prototype/main/readme%20images/ip-scene.png" width = "600">
 </p>
 
 ---
@@ -65,6 +65,8 @@ sceneShader.frag
 > * Finally, returns the combined colour value  
 
 ## YouTube Video
+
+Click the image below to view the video
 
 <p align = center>
 
